@@ -13,7 +13,7 @@ var users = require('./routes/users');
 var app = express();
 
 var db=mongo.db("mongodb://localhost:27017/MRPO",{native_parser:true})
-var medicine_id;
+var medicine_id,patient_id;
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -90,6 +90,18 @@ routes.get('/medicine_details/:medicine_id',function(req,res){
       res.send("There is error");
     }else{
       res.send(docs);
+    }
+  })
+});
+
+routes.post('/addPrescription/:patient_id,:medicine_id',function(req,res){
+  medicine_id=new mongodb.ObjectID(req.params.medicine_id.valueOf());
+  patient_id=req.params.patient_id.valueOf();
+  db.collection('prescriptions').insert({'patient_id':patient_id,'medicine_id':medicine_id},function(err,docs){
+    if(err){
+      res.send("Failure");
+    }else{
+      res.send("Success");
     }
   })
 })
