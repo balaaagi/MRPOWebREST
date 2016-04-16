@@ -70,11 +70,25 @@ app.use(function(err, req, res, next) {
 module.exports = app;
 
 
+routes.get('/home',function(req,res){
+  db.collection('medicines').find().toArray(function(err,docs){
+    if(err){
+      res.send("There is error");
+    }else{
+      res.render('index',{title: 'Express',meds:docs})
+
+    }
+
+  });
+  
+})
+
 routes.get('/medicines',function(req,res){
   db.collection('medicines').find().toArray(function(err,docs){
     if(err){
       res.send("There is error");
     }else{
+      
       res.send(docs);
     }
 

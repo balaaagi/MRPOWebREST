@@ -3,9 +3,65 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <% include ../views/partials/head %>
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+   <header>
+        <% include ../views/partials/header %>
+    </header>
+    <h1>Add a prescription here</h1>
+    <div class="panel panel-info">
+    <div class="panel-heading">Prescription Form</div>
+    <div class="panel-body">
+      <form class="form-horizontal" role="form" action="/addPrescription">
+		  <div class="form-group">
+		    <label for="patientId" class="col-sm-3 control-label">Patient ID</label>
+		    <div class="col-sm-9">
+		      <input type="text" class="form-control" id="patientId" placeholder="Patient ID" name="patientID">
+		      
+		    </div>
+		  </div>
+		  
+
+		 <div class="form-group">
+			<label for="medicine" class="col-sm-3 control-label">Medicine</label>	  
+			  <select class="form-control" style="width:auto;" id="medicine" name="medicine">
+			  <% meds.forEach(function(med,index) { %>
+			  	<option value="<%=med._id%>"><%= med.medicine.brand %> </option>
+        		
+    		  <% }) %>
+			    
+			  </select>
+			</div>
+
+		  <div class="form-group">
+		  <label class="col-sm-3 control-label">Parts of days</label>	
+		    <label class="checkbox-inline"><input type="checkbox" value="1" id="morning" name="morning">Morning</label>
+			<label class="checkbox-inline"><input type="checkbox" value="1" id="noon" name="noon">Noon</label>
+			<label class="checkbox-inline"><input type="checkbox" value="1" id="evening" name="evening">Evening</label>
+		  </div>
+
+		  <div class="form-group">
+		    <label class="col-sm-3 control-label">Timing of Intake w.r.t food</label>
+		    <label class="radio-inline"><input type="radio" value="before" name="foodBefore">Before Food</label>
+			<label class="radio-inline"><input type="radio" value"after" name="foodAfter">After Food</label>
+		  </div>
+
+			<div class="form-group">
+			    <label for="days" class="col-sm-3 control-label">No of Days</label>
+			    <div class="col-sm-9">
+			      <input type="text" name="days" class="form-control" id="days" placeholder="No of Days">
+			      
+			    </div>
+			  </div>
+  
+
+
+  
+
+  <button type="submit" class="btn btn-primary">Add Prescription</button>
+</form>
+</div>
+</div>
   </body>
 </html>
