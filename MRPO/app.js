@@ -128,13 +128,25 @@ routes.get('/addPrescription/:details',function(req,res){
   var url_parts=url.parse(req.url,true);
   var query=url_parts.query;
   // console.log(query);
-  db.collection('prescriptions').insert(query,function(err,docs){
-      if(err){
-        res.send("Error while Creating prescriptions");
-      }else{
-        res.redirect('/home');
-      }
-  })
+  medicine_id=new mongodb.ObjectID(query.medicine);
+  // query.medicine="Example";
+
+  db.collection('medicines').find({'_id':medicine_id},{"medicine.brand":1,"_id":0}).toArray(function(er,docc){
+    if(!er){
+      console.log(docc[0].medicine.brand);
+      query.medicine=docc[0].medicine.brand;
+      db.collection('prescriptions').insert(query,function(err,docs){
+        if(err){
+          res.send("Error while Creating prescriptions");
+        }else{
+          res.redirect('/home');
+        }
+      });
+    }  
+    
+  });
+  console.log(query);
+
   
   
 })
