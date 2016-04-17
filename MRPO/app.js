@@ -113,6 +113,17 @@ routes.get('/medicine_details/:medicine_id',function(req,res){
   })
 });
 
+routes.get('/getPrescriptions/:patient_id',function(req,res){
+  patient_id=req.params.patient_id.valueOf();
+  db.collection('prescriptions').find({'patientID':patient_id}).toArray(function(err,docs){
+    if(err){
+      res.send("There is error");
+    }else{
+      res.send(docs);
+    }
+  })
+})
+
 routes.get('/addPrescription/:details',function(req,res){
   var url_parts=url.parse(req.url,true);
   var query=url_parts.query;
@@ -125,7 +136,7 @@ routes.get('/addPrescription/:details',function(req,res){
       }
   })
   
-  // res.send("Success");
+  
 })
 
 
