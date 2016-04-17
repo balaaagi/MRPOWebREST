@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongo=require('mongoskin')
 var mongodb=require('mongodb')
+var url=require('url')
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -75,12 +76,16 @@ routes.get('/home',function(req,res){
     if(err){
       res.send("There is error");
     }else{
-      res.render('index',{title: 'Express',meds:docs})
+      res.render('index',{title: 'MRPO',meds:docs})
 
     }
 
   });
   
+})
+
+routes.get('/about',function(req,res){
+  res.render('about',{title:'MRPO'})
 })
 
 routes.get('/medicines',function(req,res){
@@ -108,16 +113,19 @@ routes.get('/medicine_details/:medicine_id',function(req,res){
   })
 });
 
-routes.post('/addPrescription/:patient_id,:medicine_id',function(req,res){
-  medicine_id=new mongodb.ObjectID(req.params.medicine_id.valueOf());
-  patient_id=req.params.patient_id.valueOf();
-  db.collection('prescriptions').insert({'patient_id':patient_id,'medicine_id':medicine_id},function(err,docs){
-    if(err){
-      res.send("Failure");
-    }else{
-      res.send("Success");
-    }
+routes.get('/addPrescription/:details',function(req,res){
+  var url_parts=url.parse(req.url,true);
+  var query=url_parts.query;
+  // console.log(query);
+  db.collection('prescriptions').insert(query,function(err,docs){
+      if(err){
+        res.send("Error while Creating prescriptions");
+      }else{
+        res.redirect('/home');
+      }
   })
+  
+  // res.send("Success");
 })
 
 
