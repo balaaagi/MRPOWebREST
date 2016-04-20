@@ -33,7 +33,7 @@ for search_char in search_strings:
 
 # print medicine_names
 for medicine in medicine_names:
-	params={'key':'dd961c03da6757bcd6b03612573dc7','id':medicine}
+	params={'key':'dd961c03da6757bcd6b03612573dc7','id':medicine_names[0]}
 	data=urllib.urlencode(params)
 	data=data.encode('utf-8')
 	req1 = urllib2.Request(new_url,data=data,headers=hdr)
